@@ -20,8 +20,11 @@ import com.example.android.dagger.login.LoginComponent
 import com.example.android.dagger.registration.RegistrationComponent
 import com.example.android.dagger.user.UserComponent
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
 // This module tells a Component which are its subcomponents
+@InstallIn(ApplicationComponent::class)
 @Module(
     subcomponents = [
         RegistrationComponent::class,
