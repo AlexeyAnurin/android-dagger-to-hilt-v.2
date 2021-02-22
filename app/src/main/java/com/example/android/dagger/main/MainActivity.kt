@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onResume() {
         super.onResume()
-        findViewById<TextView>(R.id.notifications).text = mainViewModel.notificationsText
+       //? findViewById<TextView>(R.id.notifications).text = mainViewModel.notificationsText
     }
 
     private fun setupViews() {
