@@ -36,18 +36,10 @@ class UserManager @Inject constructor(
     // it needs to know how to create instances of it
     private val userDataRepository: UserDataRepository) {
 
-    /**
-     *  UserComponent is specific to a logged in user. Holds an instance of UserComponent.
-     *  This determines if the user is logged in or not, when the user logs in,
-     *  a new Component will be created. When the user logs out, this will be null.
-     */
-    var userComponent: UserComponent? = null
-        private set
-
     val username: String
         get() = storage.getString(REGISTERED_USER)
 
-    fun isUserLoggedIn() = userComponent != null
+    fun isUserLoggedIn() = userDataRepository.username != null
 
     fun isUserRegistered() = storage.getString(REGISTERED_USER).isNotEmpty()
 
@@ -70,7 +62,7 @@ class UserManager @Inject constructor(
 
     fun logout() {
         // When the user logs out, we remove the instance of UserComponent from memory
-        userComponent = null
+       userDataRepository.cleanUp()
     }
 
     fun unregister() {
@@ -82,6 +74,6 @@ class UserManager @Inject constructor(
 
     private fun userJustLoggedIn() {
         // When the user logs in, we create a new instance of UserComponent
-        userComponent = userComponentFactory.create()
+       userDataRepository.initData(username)
     }
 }

@@ -25,13 +25,14 @@ import kotlin.random.Random
  * This object will have a unique instance in a Component that is annotated with
  * @LoggedUserScope (i.e. only UserComponent in this case).
  */
-@LoggedUserScope
-class UserDataRepository @Inject constructor(private val userManager: UserManager) {
 
-    val username: String
-        get() = userManager.username
+class UserDataRepository @Inject constructor() {
 
-    var unreadNotifications: Int
+    var username: String? = null
+        private set
+
+    var unreadNotifications: Int? = null
+        private set
 
     init {
         unreadNotifications = randomInt()
@@ -40,8 +41,18 @@ class UserDataRepository @Inject constructor(private val userManager: UserManage
     fun refreshUnreadNotifications() {
         unreadNotifications = randomInt()
     }
-}
 
-fun randomInt(): Int {
-    return Random.nextInt(until = 100)
+    fun initData(username: String) {
+        this.username = username
+        unreadNotifications = randomInt()
+    }
+
+    fun cleanUp() {
+        username = null
+        unreadNotifications = -1
+    }
+
+    fun randomInt(): Int {
+        return Random.nextInt(until = 100)
+    }
 }
