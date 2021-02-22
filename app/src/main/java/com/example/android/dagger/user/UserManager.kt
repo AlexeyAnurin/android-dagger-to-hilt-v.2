@@ -34,8 +34,7 @@ class UserManager @Inject constructor(
     private val storage: Storage,
     // Since UserManager will be in charge of managing the UserComponent lifecycle,
     // it needs to know how to create instances of it
-    private val userComponentFactory: UserComponent.Factory
-) {
+    private val userDataRepository: UserDataRepository) {
 
     /**
      *  UserComponent is specific to a logged in user. Holds an instance of UserComponent.
