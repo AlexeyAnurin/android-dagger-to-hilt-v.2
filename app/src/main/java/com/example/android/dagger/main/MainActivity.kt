@@ -35,15 +35,12 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    @InstallIn(ApplicationComponent::class)
-    @EntryPoint
-    interface UserManagerEntryPoint {
-        fun userManager(): UserManager
-    }
-
     // @Inject annotated fields will be provided by Dagger
     @Inject
     lateinit var mainViewModel: MainViewModel
+
+    @Inject
+    lateinit var userManager: UserManager
 
     /**
      * If the User is not registered, RegistrationActivity will be launched,
@@ -52,9 +49,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val entryPoint = EntryPointAccessors.fromApplication(applicationContext, UserManagerEntryPoint::class.java)
-        val userManager = entryPoint.userManager()
+        setupViews()
     }
 
     /**

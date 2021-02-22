@@ -24,6 +24,7 @@ import com.example.android.dagger.MyApplication
 import com.example.android.dagger.R
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.main.MainActivity
+import com.example.android.dagger.user.UserManager
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
@@ -33,10 +34,10 @@ class SettingsActivity : AppCompatActivity() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    @Inject
+    lateinit var userManager: UserManager
 
-        val entryPoint = EntryPointAccessors.fromApplication(applicationContext, MainActivity.UserManagerEntryPoint::class.java)
-        val userManager = entryPoint.userManager()
+    override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
