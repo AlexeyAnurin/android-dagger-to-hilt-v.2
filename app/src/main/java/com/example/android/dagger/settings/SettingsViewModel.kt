@@ -20,7 +20,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.example.android.dagger.user.UserDataRepository
 import com.example.android.dagger.user.UserManager
-import javax.inject.Inject
 
 /**
  * SettingsViewModel is the ViewModel that [SettingsActivity] uses to handle complex logic.

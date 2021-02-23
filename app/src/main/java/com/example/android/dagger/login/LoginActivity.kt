@@ -22,6 +22,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
@@ -40,8 +41,8 @@ import javax.inject.Inject
 class LoginActivity : AppCompatActivity() {
 
     // @Inject annotated fields will be provided by Dagger
-    @Inject
-    lateinit var loginViewModel: LoginViewModel
+
+    private val loginViewModel: LoginViewModel by viewModels()
 
     private lateinit var errorTextView: TextView
 
