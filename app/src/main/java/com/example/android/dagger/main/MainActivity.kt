@@ -29,10 +29,12 @@ import com.example.android.dagger.settings.SettingsActivity
 import com.example.android.dagger.user.UserManager
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // @Inject annotated fields will be provided by Dagger
@@ -49,15 +51,27 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupViews()
-    }
 
+        if (!userManager.isUserLoggedIn()) {
+            if (!userManager.isUserRegistered()) {
+                startActivity(Intent(this, RegistrationActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        } else {
+            setContentView(R.layout.activity_main)
+
+            setupViews()
+        }
+    }
     /**
      * Updating unread notifications onResume because they can get updated on SettingsActivity
      */
     override fun onResume() {
         super.onResume()
-       //? findViewById<TextView>(R.id.notifications).text = mainViewModel.notificationsText
+       findViewById<TextView>(R.id.notifications).text = mainViewModel.notificationsText
     }
 
     private fun setupViews() {

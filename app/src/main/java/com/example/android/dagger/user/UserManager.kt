@@ -23,18 +23,13 @@ import javax.inject.Singleton
 private const val REGISTERED_USER = "registered_user"
 private const val PASSWORD_SUFFIX = "password"
 
-/**
- * Handles User lifecycle. Manages registrations, logs in and logs out.
- * Knows when the user is logged in.
- *
- * Marked with @Singleton since we only one an instance of UserManager in the application graph.
- */
 @Singleton
 class UserManager @Inject constructor(
-    private val storage: Storage,
-    // Since UserManager will be in charge of managing the UserComponent lifecycle,
-    // it needs to know how to create instances of it
-    private val userDataRepository: UserDataRepository) {
+        private val storage: Storage,
+        // Since UserManager will be in charge of managing the UserComponent lifecycle,
+        // it needs to know how to create instances of it
+        private val userDataRepository: UserDataRepository
+) {
 
     val username: String
         get() = storage.getString(REGISTERED_USER)
@@ -46,7 +41,7 @@ class UserManager @Inject constructor(
     fun registerUser(username: String, password: String) {
         storage.setString(REGISTERED_USER, username)
         storage.setString("$username$PASSWORD_SUFFIX", password)
-        userJustLoggedIn()
+        userJustLoggedIn(username)
     }
 
     fun loginUser(username: String, password: String): Boolean {
@@ -56,13 +51,12 @@ class UserManager @Inject constructor(
         val registeredPassword = storage.getString("$username$PASSWORD_SUFFIX")
         if (registeredPassword != password) return false
 
-        userJustLoggedIn()
+        userJustLoggedIn(username)
         return true
     }
 
     fun logout() {
-        // When the user logs out, we remove the instance of UserComponent from memory
-       userDataRepository.cleanUp()
+        userDataRepository.cleanUp()
     }
 
     fun unregister() {
@@ -72,8 +66,8 @@ class UserManager @Inject constructor(
         logout()
     }
 
-    private fun userJustLoggedIn() {
-        // When the user logs in, we create a new instance of UserComponent
-       userDataRepository.initData(username)
+    private fun userJustLoggedIn(username: String) {
+        // When the user logs in, we create populate data in UserComponent
+        userDataRepository.initData(username)
     }
 }

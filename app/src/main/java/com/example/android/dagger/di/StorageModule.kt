@@ -28,7 +28,6 @@ import dagger.hilt.android.components.ApplicationComponent
 @Module
 abstract class StorageModule {
 
-    // Makes Dagger provide SharedPreferencesStorage when a Storage type is requested
     @Binds
     abstract fun provideStorage(storage: SharedPreferencesStorage): Storage
 }
